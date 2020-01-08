@@ -5,10 +5,10 @@ public class TestModel {
 
 	public static void main(String[] args) {
 
-		Model model = new Model(2003);
+		Model model = new Model();
 		
 		
-		model.printAllBest(300);
+		model.printBest(300);
 		
 		
 		

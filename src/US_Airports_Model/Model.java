@@ -10,44 +10,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
-
 import US_Airports_DB.DAO;
 
 public class Model {
 	
-	private List<Flight> voli_passeggeri=new ArrayList<>();
+	private List<Flight> flight_passengers=new ArrayList<>();
 	private DAO dao;
 	private int [] Visited;
-	
-	public Model(int year) {
-		dao=new DAO();
-		
-		voli_passeggeri=dao.getFlights_Passengers(year);
-		
-	    Visited=new int[voli_passeggeri.size()+10];
+	private Graph graph;
 
+	
+	
+	public Model() {
+		dao=new DAO();		
+	    Visited=new int[flight_passengers.size()+10];
+        graph=new Graph();  
+	}
+	
+	public void loadFlights(int year) {
+		   flight_passengers=dao.getFlights_Passengers(year);
 	}
 	
 	
-	 int search(int distance, List<Flight> input, int n,int visited[])
-    {
+	
+	
+	
+   int search(int distance, List<Flight> input, int n,int visited[]) {
     
-   if (n == 0 || distance == 0)
+     if (n == 0 || distance == 0)
        return 0;
 
- 
-    if (input.get(n-1).getDistance() >distance)
-     {
+     if (input.get(n-1).getDistance() >distance) {
       return search(distance, input, n-1,visited);
      }
    
-   else {
+     else {
 
        int v1[]=new int[visited.length];
        System.arraycopy(visited, 0, v1, 0, v1.length);
@@ -72,20 +69,32 @@ public class Model {
    
      }
 	
-	public  void printAllBest(int distance) {
+	public void printBest(int distance) {
 		
-		int n=voli_passeggeri.size()-1;
-	    System.out.println(search(distance,voli_passeggeri ,n, Visited));
-
+		int n=flight_passengers.size()-1;
+	    
 		for(int i=0;i<n;i++)
 	        if(Visited[i]==1) {
-	         if(voli_passeggeri.get(i).getAvg_passengers()>0 && voli_passeggeri.get(i).getDistance()>0)
-	        	System.out.println(voli_passeggeri.get(i));
+	         if(flight_passengers.get(i).getAvg_passengers()>0 && flight_passengers.get(i).getDistance()>0)
+	        	System.out.println(flight_passengers.get(i));
 		
 	        }	
 	}
 	
 	
+	public void createGraph() {
+			
+		for(Flight f:flight_passengers) {
+			
+			if(!graph.containsEdge(f.getOrigin(), f.getDestination())) {
+				graph.addEdge(f.getOrigin(),f.getDestination(),f.getDistance());
+			}
+			
+		}
+	}
+	
+	
+		
 	
 
 }
