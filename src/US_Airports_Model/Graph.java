@@ -5,18 +5,27 @@ public class Graph{
 	        int vertices;
 	        private Map<String,List<Edge>> adjacencyList;
 
-	        Graph() {
+	       public Graph() {
 	           adjacencyList = new HashMap<String,List<Edge>>();
 	        }
 
 	        public void addEdge(String source,String destination, int weight) {
 	            Edge edge = new Edge(destination, weight);
 	            
+	            if(!adjacencyList.containsKey(source)) {
+	            	List<Edge> nuovaLista=new ArrayList<Edge>();
+	            	adjacencyList.put(source, nuovaLista);
+	            }
+	            
 	            adjacencyList.get(source).add(edge);
 	        }
 	        
               public List<Edge> getNeighbours(String node){
-	        	
+            	  
+            	  
+	        	if(!this.adjacencyList.containsKey(node)) {
+	        		return new ArrayList<Edge>();
+	        	}
 	        	return adjacencyList.get(node);
 	        }
               
@@ -38,6 +47,12 @@ public class Graph{
 	        	}
 	        	return false;
 	        	
+	        }
+	        
+	        
+	        public int getSize() {
+	        	
+	        	return this.adjacencyList.size();
 	        }
 	        
 

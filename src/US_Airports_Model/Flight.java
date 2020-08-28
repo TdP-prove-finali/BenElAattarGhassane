@@ -68,8 +68,8 @@ public class Flight {
 	
 	@Override
 	public String toString() {
-		return String.format("Flight_Passengers [avg_passengers=%s, distance=%s, origin=%s, destination=%s]",
-				avg_passengers, distance, origin, destination);
+		return String.format("Origin=%s, Destination=%s,Avg_passengers=%s, Distance=%s",
+				origin,destination,avg_passengers,distance);
 	}
 	
 

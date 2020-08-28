@@ -6,9 +6,21 @@ public class TestModel {
 	public static void main(String[] args) {
 
 		Model model = new Model();
+		model.loadFlights(1990);
+				
+		
+		model.printAll();
+		
+		model.createGraph();
 		
 		
-		model.printBest(300);
+		
+//		boolean ans=model.isConnected("Los Angeles, CA", "San Francisco, CA");
+//		
+//		if(ans)System.out.println("Connected");
+//		else System.out.println("Not connected");
+//		
+
 		
 		
 		
