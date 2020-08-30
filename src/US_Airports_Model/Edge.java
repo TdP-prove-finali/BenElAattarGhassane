@@ -1,7 +1,9 @@
 package US_Airports_Model;
 
-public class Edge {
+public class Edge implements Comparable<Edge> {
 	
+	
+
 	private String destination;
     private int weight;
     
@@ -53,7 +55,23 @@ public class Edge {
 		if (weight != other.weight)
 			return false;
 		return true;
-	}    
+	}
+
+	@Override
+	public int compareTo(Edge other) {
+		if(this.weight<other.getWeight()) {
+			return 1;
+		}
+		if(this.weight==other.weight)
+		return 0;
+		
+		return -1;
+	} 
+	
+	@Override
+	public String toString() {
+		return String.format("Edge [destination=%s, weight=%s]", destination, weight);
+	}
     
     
     
