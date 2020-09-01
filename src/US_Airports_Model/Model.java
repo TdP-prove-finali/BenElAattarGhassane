@@ -15,7 +15,7 @@ import US_Airports_DB.DAO;
 
 public class Model {
 	
-	private List<Flight> flight_passengers=new ArrayList<>();
+	private List<Flight> flight_passengers;
 	private DAO dao;
 	private int [] Visited;
 	private Graph graph;
@@ -36,8 +36,20 @@ public class Model {
 		 
 	}
 	
+	public int [] getVisited() {
+		return this.Visited;
+	}
 	
-   int search(int distance, List<Flight> input, int n,int visited[]) {
+	public List<Flight>getFlights(){
+		return this.flight_passengers;
+	}
+	
+	public Integer getSize() {
+		return this.flight_passengers.size();
+	}
+	
+	
+   int recursiveSearch(int distance, List<Flight> input, int n,int visited[]) {
     
      if (n == 0 || distance == 0)
        return 0;
@@ -45,7 +57,7 @@ public class Model {
      
      if (input.get(n-1).getDistance() >distance) {
     	 
-      return search(distance, input, n-1,visited);
+      return recursiveSearch(distance, input, n-1,visited);
       
      }
    
@@ -61,9 +73,9 @@ public class Model {
        
        v1[n-1]=1;
 
-       int ans1 = input.get(n-1).getAvg_passengers() + search(distance-input.get(n-1).getDistance(), input,n-1,v1);
+       int ans1 = input.get(n-1).getAvg_passengers() + recursiveSearch(distance-input.get(n-1).getDistance(), input,n-1,v1);
        
-       int ans2 = search(distance,input, n-1,v2);
+       int ans2 = recursiveSearch(distance,input, n-1,v2);
            
        if(ans1>ans2){
     	   
@@ -88,7 +100,7 @@ public class Model {
 		
 		int n=flight_passengers.size();
 		
-		int val=search(distance,flight_passengers,n,Visited);
+		int val=recursiveSearch(distance,flight_passengers,n,Visited);
 		
 		for(int i=0;i<n;i++)
 			
@@ -98,7 +110,31 @@ public class Model {
 	        	System.out.println(flight_passengers.get(i));
 	         
 	              }	
-	 } 
+	 }
+	
+	public List<Flight>getBest(int distance){
+		
+		
+		int n=this.flight_passengers.size();
+		
+		int risultato=recursiveSearch(distance,flight_passengers,n,Visited);
+		
+		List<Flight>bestFlights=new ArrayList<Flight>();
+		
+		for(int i=0;i<n;i++) {
+			
+	        if(Visited[i]==1) {
+	        	
+	         if(flight_passengers.get(i).getAvg_passengers()>0 && flight_passengers.get(i).getDistance()>0)
+	        	bestFlights.add(flight_passengers.get(i));
+	         
+	              }
+		}
+		
+		return bestFlights;
+				
+		
+	}
 	
 	 	
 	public void createGraph() {

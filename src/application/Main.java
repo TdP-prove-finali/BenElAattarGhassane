@@ -11,7 +11,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ExtFlightDelays.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("US_Airports.fxml"));
 			BorderPane root = (BorderPane) loader.load();
 			Controller controller = loader.getController();
 
