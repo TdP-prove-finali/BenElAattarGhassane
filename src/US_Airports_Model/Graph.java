@@ -3,21 +3,27 @@ import java.util.*;
 
 public class Graph{
 	        int vertices;
-	        private Map<String,List<Edge>> adjacencyList;
+	        
+
+			private Map<String,List<Edge>> adjacencyList;
 
 	       public Graph() {
 	           adjacencyList = new HashMap<String,List<Edge>>();
 	        }
 
 	        public void addEdge(String source,String destination, int weight) {
+	        	
 	            Edge edge = new Edge(destination, weight);
 	            
 	            if(!adjacencyList.containsKey(source)) {
 	            	List<Edge> nuovaLista=new ArrayList<Edge>();
+	            	nuovaLista.add(edge);
 	            	adjacencyList.put(source, nuovaLista);
 	            }
-	            
-	            adjacencyList.get(source).add(edge);
+	            else {
+	            	adjacencyList.get(source).add(edge);
+	            }
+	             
 	        }
 	        
               public List<Edge> getNeighbours(String node){
@@ -54,6 +60,12 @@ public class Graph{
 	        	
 	        	return this.adjacencyList.size();
 	        }
+	        
+	        @Override
+			public String toString() {
+				return String.format("Graph [adjacencyList=%s]", adjacencyList);
+			}
+
 	        
 
 	        
