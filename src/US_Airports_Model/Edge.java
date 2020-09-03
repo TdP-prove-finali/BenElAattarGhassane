@@ -1,12 +1,10 @@
 package US_Airports_Model;
 
 public class Edge implements Comparable<Edge> {
-	
-	
 
 	private String destination;
-    private int weight;
-    
+	private int weight;
+
 	public Edge(String destination, int weight) {
 		super();
 		this.destination = destination;
@@ -56,24 +54,23 @@ public class Edge implements Comparable<Edge> {
 			return false;
 		return true;
 	}
-
+   
+	//Il metodo permette di inserire gli archi in una coda a priorità per l'algoritmo di Dikjkstra.
+	
 	@Override
 	public int compareTo(Edge other) {
-		if(this.weight<other.getWeight()) {
+		if (this.weight < other.getWeight()) {
 			return 1;
 		}
-		if(this.weight==other.weight)
-		return 0;
-		
+		if (this.weight == other.weight)
+			return 0;
+
 		return -1;
-	} 
-	
+	}
+
 	@Override
 	public String toString() {
 		return String.format("Edge [destination=%s, weight=%s]", destination, weight);
 	}
-    
-    
-    
-	
+
 }

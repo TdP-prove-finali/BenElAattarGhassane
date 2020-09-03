@@ -16,8 +16,11 @@ import US_Airports_DB.DAO;
 public class Model {
 
 	private List<Flight> flight_passengers;
+	
 	private DAO dao;
+	
 	private int[] Visited;
+	
 	private Graph graph;
 
 	public Model() {
@@ -35,16 +38,24 @@ public class Model {
 	}
 
 	public int[] getVisited() {
+		
 		return this.Visited;
 	}
 
 	public List<Flight> getFlights() {
+		
 		return this.flight_passengers;
 	}
 
 	public Integer getSize() {
+		
 		return this.flight_passengers.size();
 	}
+	
+	//Il seguente metodo esegue la ricerca ricorsiva delle tratte che massimizzano il numero di passeggeri,data una distanza dall'utente.
+	//Gli array v1 e v2 permettono di salvare le selezioni effettuate in ogni step ricorsivo.
+	//Vengono  effettuate chiamate ricorsive in cui provo ad includere un elemento nell'insieme oppure no,verificando in tutti i casi la risposta
+	//Il caso base è quando n=0 o distanza raggiunge 0
 
 	int recursiveSearch(int distance, List<Flight> input, int n, int visited[]) {
 
@@ -105,6 +116,9 @@ public class Model {
 
 			}
 	}
+	
+	//Nel seguente metodo,effettuo backtrack per ricostruire la soluzione ottimale. Se una tratta è visitata (nell'array=1),
+	//allora fa parte della risposta ottima se i suoi valori sono positivi 
 
 	public List<Flight> getBest(int distance) {
 
@@ -123,11 +137,13 @@ public class Model {
 
 			}
 		}
-		
 
 		return bestFlights;
 
 	}
+	
+	
+	//Nel seguente metodo viene creato il grafo diretto e orientato. L'implementazione è effettuata nelle classi graph ed edge.
 
 	public void createGraph() {
 
@@ -136,26 +152,25 @@ public class Model {
 			if (!this.graph.containsEdge(f.getOrigin(), f.getDestination())) {
 
 				this.graph.addEdge(f.getOrigin(), f.getDestination(), f.getDistance());
-				
-				
 
 			}
-			
-			
-			
 
 		}
 	}
-	
+
 	public Graph getGraph() {
 		return this.graph;
 	}
+	
+	
+	//Nel seguente metodo viene eseguito un algoritmo di visita in profondità (DFS) per verificare la connettività di due nodi
+	//La mappa serve a tener traccia dei nodi che vengono visitati nelle varie chiamate ricorsive.
 
 	private void depthFirstSearch(String vertex, Map<String, Boolean> vis) {
 
 		vis.put(vertex, true);
-		
-		if(this.graph.getNeighbours(vertex).isEmpty()) {
+
+		if (this.graph.getNeighbours(vertex).isEmpty()) {
 			return;
 		}
 
@@ -179,6 +194,9 @@ public class Model {
 		return false;
 
 	}
+	
+	
+	//Se un nodo viene visitato durante la visita in profondità,allora esso è raggiungibile dal nodo di partenza.
 
 	public boolean isConnected(String origin, String destination) {
 
@@ -200,6 +218,10 @@ public class Model {
 
 		return false;
 	}
+	
+	//Il seguente metodo è un'implementazione dell'algoritmo di Dijkstra per trovare il cammino di minima distanza tra due nodi. 
+	//L'implementazione è soprattuto ottimale per l'uso di una min-heap (coda a priorità) ed una hashmap per associare le stringhe 
+	//ai rispettivi valori di distanza e precedente.
 
 	public Map<Long, List<String>> dijkstraShortestPath(String origin, String destination) {
 
